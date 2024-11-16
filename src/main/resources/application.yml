@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: products-service
+          uri: lb://products-service
+          predicates:
+            - Path=/v1/product-service/**
+        - id: reservation-service
+          uri: lb://reservation-service
+          predicates:
+            - Path=/v1/reservation-service/**
+        - id: payment-service
+          uri: lb://payment-service
+          predicates:
+            - Path=/v1/payment-service/**
+        - id: credit-card-processor-service
+          uri: lb://credit-card-processor-service
+          predicates:
+            - Path=/v1/credit-card/**
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${random.value}
