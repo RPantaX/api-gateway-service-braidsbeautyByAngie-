@@ -65,15 +65,27 @@ spring:
               args:
                 name: orders-service
                 fallbackUri: forward:/ordersServiceFallback
-#  security:
-#    oauth2:
-#      resourceserver:
-#        jwt:
-#          jwk-set-uri: http://localhost:7080/realms/master/protocol/openid-connect/certs
+
+server:
+  port: 8080
 
 eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka
   instance:
-    instance-id: ${spring.application.name}:${random.value}
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.cloud.client.hostname}:${server.port}
+
+# Health check
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
+  endpoint:
+    health:
+      show-details: always
 
 springdoc:
   swagger-ui:
