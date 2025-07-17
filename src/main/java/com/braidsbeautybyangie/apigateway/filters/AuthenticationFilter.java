@@ -33,7 +33,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
             String token = authHeader.substring(7);
 
             return userServiceWebClient.get()
-                    .uri("/v1/user-service/user/auth/validate?token=" + token)
+                    .uri("/v1/user-service/auth/validate?token=" + token)
                     .retrieve()
                     .bodyToMono(TokenValidationResponse.class)
                     .onErrorResume(e -> {
